@@ -1,0 +1,5 @@
+---
+ssserver_port: "443"
+sslocal_port: "3333"
+ss_timeout: "600"
+ss_encryption_method: "aes-256-cfb"

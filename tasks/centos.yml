@@ -1,0 +1,38 @@
+---
+- name: Install dependencies
+  yum: name={{ item }}
+  with_items: shadowsocks_dependencies
+
+- name: Install pip
+  easy_install: name=pip
+
+- name: Add the shadowsocks user
+  user: name=shadowsocks
+        home={{ shadowsocks_home }}
+        shell=/sbin/nologin
+        comment="Shadowsocks User"
+
+- name: Install Shadowsocks
+  pip: name=shadowsocks
+
+- name: Generate a random password
+  command: openssl rand -base64 18
+  register: shadowsocks_password
+
+- name: Generate config file
+  template: src=shadowsocks.json
+            dest={{ shadowsocks_home }}/shadowsocks.json
+            owner=shadowsocks
+            group=shadowsocks
+            mode=640
+  notify: restart shadowsocks
+
+- name: Generate init script
+  template: src=shadowsocks.init
+            dest=/etc/init.d/shadowsocks
+            owner=root
+            group=root
+            mode=755
+
+- name: Start and enable service
+  service: name=shadowsocks state=started enabled=yes
