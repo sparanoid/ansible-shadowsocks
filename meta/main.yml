@@ -3,7 +3,7 @@ galaxy_info:
   author: Tunghsiao Liu
   description: Installs Shadowsocks
   company: Sparanoid
-  license: license (MIT)
+  license: license (GPLv3)
   min_ansible_version: 1.2
   platforms:
   - name: EL

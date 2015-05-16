@@ -1,38 +1,51 @@
-Shadowsocks
-===========
+Ansible Role: Shadowsocks
+=========================
 
-A brief description of the role goes here.
+Install [Shadowsocks](https://github.com/shadowsocks) via Ansible.
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+This role requires Ansible 1.4 or higher and platform requirements are listed in the metadata file.
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+The variables that can be passed to this role and a brief description about them are as follows.
+
+```yaml
+shadowsocks_dependencies:
+  - python-setuptools
+  - m2crypto
+
+shadowsocks_home: "/etc/shadowsocks"
+```
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+None
 
 Example Playbook
 ----------------
 
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+```yaml
+- hosts: servers
+  roles:
+     - { role: sparanoid.shadowsocks, shadowsocks_home: /etc/shadowsocks }
+```
 
 License
 -------
 
-BSD
+GPLv3
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+**Tunghsiao Liu**
+
+- Twitter: @[tunghsiao](http://twitter.com/tunghsiao)
+- GitHub: @[sparanoid](http://github.com/sparanoid)
