@@ -15,9 +15,17 @@
 - name: Install Shadowsocks
   pip: name=shadowsocks
 
+- name: Check if config exists
+  stat: path={{ shadowsocks_home }}/shadowsocks.json
+  register: ssconfig
+
+- debug: msg="{{ shadowsocks_home }}/shadowsocks.json exists, skipping generate new password."
+  when: ssconfig.stat.exists == True
+
 - name: Generate a random password
   command: openssl rand -base64 18
   register: shadowsocks_password
+  when: ssconfig.stat.exists == False
 
 - name: Generate config file
   template: src=shadowsocks.json
@@ -26,6 +34,7 @@
             group=shadowsocks
             mode=640
   notify: restart shadowsocks
+  when: ssconfig.stat.exists == False
 
 - name: Generate init script
   template: src=shadowsocks.init
