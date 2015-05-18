@@ -1,6 +1,6 @@
 ---
 - name: Install dependencies
-  yum: name={{ item }}
+  yum: name={{ item }} state=installed
   with_items: shadowsocks_dependencies
 
 - name: Install pip
@@ -32,7 +32,7 @@
             dest={{ shadowsocks_home }}/shadowsocks.json
             owner=shadowsocks
             group=shadowsocks
-            mode=640
+            mode=0640
   notify: restart shadowsocks
   when: ssconfig.stat.exists == False
 
@@ -41,7 +41,7 @@
             dest=/etc/init.d/shadowsocks
             owner=root
             group=root
-            mode=755
+            mode=0755
 
 - name: Start and enable service
   service: name=shadowsocks state=started enabled=yes
