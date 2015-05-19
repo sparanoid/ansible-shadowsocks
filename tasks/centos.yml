@@ -1,18 +1,11 @@
 ---
 - name: install dependencies
   yum: name={{ item }}
-  with_items: shadowsocks.dependencies
+  with_items: shadowsocks_dependencies
   tags: prepare
 
 - name: install pip
   easy_install: name=pip
-  tags: prepare
-
-- name: add the shadowsocks user
-  user: name=shadowsocks
-        home={{ shadowsocks.home }}
-        shell=/sbin/nologin
-        comment="Shadowsocks User"
   tags: prepare
 
 - name: install Shadowsocks
