@@ -10,7 +10,7 @@ Install [Shadowsocks](https://github.com/shadowsocks) via Ansible.
 - Dynamic passwords support
 - Tuning `sysctl` automatically for better performance
 - Detect `tcp_fastopen` support
-- Init startup script included
+- Support init startup script
 
 ## Requirements
 
@@ -46,7 +46,7 @@ Install shadowsocks with different server port (default: `443`):
     - { role: sparanoid.shadowsocks, shadowsocks.config.server_port: 9999 }
 ```
 
-Install shadowsocks without tuning sysctl (default: `shadowsocks.sysctl.tweak: true`):
+Install shadowsocks without tuning `sysctl` (default: `shadowsocks.sysctl.tweak: true`):
 
 ```yaml
 - hosts: servers
