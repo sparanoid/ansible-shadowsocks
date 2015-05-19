@@ -83,6 +83,7 @@ $ ansible-playbook shadowsocks-servers.yml --extra-vars "shadowsocks.dynamic_pas
 - [ ] Multiple users support
 - [ ] Distro support
   - [x] EL
+    - [ ] Better init.d script for 7
   - [ ] Debian
   - [ ] Ubuntu
 

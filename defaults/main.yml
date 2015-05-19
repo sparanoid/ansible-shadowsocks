@@ -11,10 +11,6 @@ shadowsocks:
     encryption_method: "aes-256-cfb"
     fast_open: true
 
-  dependencies:
-    - python-setuptools
-    - m2crypto
-
   sysctl:
     tweak: true
     params:

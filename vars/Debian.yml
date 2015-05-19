@@ -1,0 +1,4 @@
+---
+shadowsocks_dependencies:
+  - python-pip
+  - python-m2crypto
