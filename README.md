@@ -1,5 +1,7 @@
 # Ansible Role: Shadowsocks
 
+[![Build Status](https://travis-ci.org/sparanoid/ansible-shadowsocks.svg)](https://travis-ci.org/sparanoid/ansible-shadowsocks)
+
 Install [Shadowsocks](https://github.com/shadowsocks) via Ansible.
 
 ## Features
