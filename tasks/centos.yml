@@ -1,47 +1,71 @@
 ---
-- name: Install dependencies
-  yum: name={{ item }} state=installed
-  with_items: shadowsocks_dependencies
+- name: install dependencies
+  yum: name={{ item }}
+  with_items: shadowsocks.dependencies
+  tags: prepare
 
-- name: Install pip
+- name: install pip
   easy_install: name=pip
+  tags: prepare
 
-- name: Add the shadowsocks user
+- name: add the shadowsocks user
   user: name=shadowsocks
-        home={{ shadowsocks_home }}
+        home={{ shadowsocks.home }}
         shell=/sbin/nologin
         comment="Shadowsocks User"
+  tags: prepare
 
-- name: Install Shadowsocks
-  pip: name=shadowsocks
+- name: install Shadowsocks
+  pip: name=shadowsocks state=latest
+  tags: install
 
-- name: Check if config exists
-  stat: path={{ shadowsocks_home }}/shadowsocks.json
-  register: ssconfig
-
-- debug: msg="{{ shadowsocks_home }}/shadowsocks.json exists, skipping generate new password."
-  when: ssconfig.stat.exists == True
-
-- name: Generate a random password
+- name: generate a random password
   command: openssl rand -base64 18
   register: shadowsocks_password
-  when: ssconfig.stat.exists == False
+  when: shadowsocks.dynamic_password
+  tags: config
 
-- name: Generate config file
+- name: output password for reference
+  debug: msg="{{ shadowsocks_password.stdout }}"
+  when: shadowsocks.dynamic_password
+  tags: config
+
+- name: generate config file
   template: src=shadowsocks.json
-            dest={{ shadowsocks_home }}/shadowsocks.json
+            dest={{ shadowsocks.home }}/shadowsocks.json
             owner=shadowsocks
             group=shadowsocks
-            mode=0640
+            mode=640
   notify: restart shadowsocks
-  when: ssconfig.stat.exists == False
+  tags: config
 
-- name: Generate init script
+- name: generate init script
   template: src=shadowsocks.init
             dest=/etc/init.d/shadowsocks
             owner=root
             group=root
-            mode=0755
+            mode=755
+  tags: config
 
-- name: Start and enable service
-  service: name=shadowsocks state=started enabled=yes
+- name: tweak sysctl
+  sysctl: name="{{ item.key }}"
+          value="{{ item.value }}"
+          state=present
+          reload=yes
+          ignoreerrors=yes
+  with_items: shadowsocks.sysctl.params
+  when: shadowsocks.sysctl.tweak
+  tags: sysctl
+
+- name: enable tcp_fastopen if available
+  sysctl: name="net.ipv4.tcp_fastopen"
+          value="3"
+          state=present
+          reload=yes
+  when: shadowsocks.sysctl.tweak and ansible_kernel | version_compare('3.7', '>=')
+  tags: sysctl
+
+- name: start and enable service
+  service: name=shadowsocks
+           state=started
+           enabled=yes

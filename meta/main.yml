@@ -4,7 +4,7 @@ galaxy_info:
   description: Installs Shadowsocks
   company: Sparanoid
   license: license (GPLv3)
-  min_ansible_version: 1.2
+  min_ansible_version: 1.6
   platforms:
   - name: EL
     versions:

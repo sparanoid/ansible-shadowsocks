@@ -1,8 +1,17 @@
 {
-    "server":"{{ ansible_default_ipv4.address }}",
-    "server_port":{{ ssserver_port }},
-    "local_port":{{ sslocal_port }},
-    "password":"{{ shadowsocks_password.stdout }}",
-    "timeout":{{ ss_timeout }},
-    "method":"{{ ss_encryption_method }}"
+    "server": "{{ ansible_default_ipv4.address }}"
+  , "server_port": {{ shadowsocks.config.server_port }}
+  , "local_port": {{ shadowsocks.config.local_port }}
+  {% if shadowsocks.dynamic_password -%}
+  , "password": "{{ shadowsocks_password.stdout }}"
+  {% else -%}
+  , "password": "{{ shadowsocks.static_password }}"
+  {% endif -%}
+  , "timeout": {{ shadowsocks.config.timeout }}
+  , "method": "{{ shadowsocks.config.encryption_method }}"
+  {% if ansible_kernel | version_compare('3.7', '>=') -%}
+  , "fast_open": true
+  {% else -%}
+  , "fast_open": false
+  {% endif %}
 }

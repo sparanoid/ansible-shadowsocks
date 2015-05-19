@@ -1,6 +1,1 @@
 ---
-shadowsocks_dependencies:
-  - python-setuptools
-  - m2crypto
-
-shadowsocks_home: "/etc/shadowsocks"
