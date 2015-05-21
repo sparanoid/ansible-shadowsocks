@@ -17,7 +17,7 @@
 
 name=shadowsocks
 ssserver=/usr/bin/ssserver
-conffile={{ shadowsocks.home }}/shadowsocks.json
+conffile={{ shadowsocks_home }}/shadowsocks.json
 pidfile=/var/run/$name.pid
 lockfile=/var/lock/subsys/$name
 
