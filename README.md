@@ -64,7 +64,7 @@ Install shadowsocks using custom specified password (default: `apn!proxy!ss!ftw!
 You can also define password in command line:
 
 ```shell
-$ ansible-playbook shadowsocks-servers.yml --extra-vars "shadowsocks_sysctl_tweak=false"
+$ ansible-playbook shadowsocks-servers.yml --extra-vars "shadowsocks_password=myFancy@Passwd!"
 ```
 
 ## Todos
