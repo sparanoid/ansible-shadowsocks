@@ -10,6 +10,7 @@
 
 - name: install Shadowsocks
   pip: name=shadowsocks state=latest
+  notify: restart shadowsocks
   tags: install
 
 - name: assure shadowsocks home dir exists
