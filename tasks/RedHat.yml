@@ -1,7 +1,6 @@
 ---
 - name: install dependencies
-  yum: name={{ item }}
-  with_items: shadowsocks_dependencies
+  yum: name={{ shadowsocks_dependencies }}
   tags: prepare
 
 - name: install pip
